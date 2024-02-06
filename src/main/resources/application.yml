@@ -1,0 +1,37 @@
+greeting:
+  message: "hello"
+db:
+  host: pgserver.dev.cybercat.priv
+  port: 5432
+  main:
+    user: michaud
+    pass: michaud
+    database: michaud_20240205_eric
+
+  quarkus:
+    test:
+      continuous-testing: disabled
+    native:
+      add-all-charsets: true
+    flyway:
+      migrate-at-start: true
+      default-schema: public
+      schemas: public
+      create-schemas: true
+      table: flyway_history
+      baseline-on-migrate: true
+      repair-at-start: true
+
+  datasource:
+    db-kind: postgresql
+    username: ${db.main.user}
+    password: ${db.main.pass}
+    jdbc:
+      url: jdbc:postgresql://${db.host}:${db.port}/${db.main.database}
+    reactive:
+      url: postgresql://${db.host}:${db.port}/${db.main.database}
+
+  package:
+    type: fast-jar
+  jib:
+    base-jvm-image: registry.access.redhat.com/ubi8/openjdk-17-runtime:1.16
